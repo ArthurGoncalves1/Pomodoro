@@ -1,57 +1,73 @@
-var start = document.getElementById('start')
-var reset = document.getElementById('reset')
-var pause = document.getElementById('pause')
+"use strict"
+
+ 
+var w_minutes = 25;
+var w_seconds = 0;
+
+var w_cycles = 0;
+
+var b_minutes = 5
+var b_seconds = 0;
+
+var tempo = 1000;
+var cron;
+var cron2;
 
 
-var wm = document.getElementById('w_minutes') 
-var ws = document.getElementById('w_seconds') 
+function start(){
+   if(w_seconds > 0  || w_minutes > 0){
+      cron = setInterval(w_timer, tempo);
+   }else{
+      w_cycles++
+      document.getElementById('w_cycles').innerHTML = w_cycles;
+   }
 
-var bm = document.getElementById('b_minutes') 
-var bs = document.getElementById('b_seconds') 
-
-
-var StartTimer;
-
-function oi(){
-    wm--
 }
 
+function pause(){
+   clearInterval(cron)
+   clearInterval(cron2)
+}
 
-/*start.addEventListener('click', function(){
-    if(StartTimer === undefined){
-        StartTimer = setInterval(timer, 1000)
-    }else{
-        alert("Timer is running")
-    }
-})
+function reset(){
 
-function timer(){
-    //work timer count
-    if(ws.innerText != 0){
-        ws.innerText --
-    }else if(wm.innerText != 0 && ws.innerText == 0){
-        ws.innerText = 59
-        wm.innerText --
-    }
+   var w_minutes = 0;
+   var w_seconds = 2;
 
-    //break time count
-    if(wm.innerText == 0 && ws.innerText == 0){
-        if(bs.innerText != 0){
-            bs.innerText --
-        }else if (bm.innerText != 0 && bs.innerText == 0){
-            bs.innerText = 59
-            bm.innerText --
-        }
-    }
+   var b_minutes = 5
+   var b_seconds = 0;
 
-    //increment counter 
-    if (wm.innerText == 0 && ws.innerText == 0 && bm.innerText == 0 && bs.innerText == 0){
-        wm.innerText = 25
-        ws.innerText = "0"
+}
 
-        bm.innerText = 5
-        bs.innerText = "00"
+function w_timer(){
 
-        document.getElementById('w_cycles').innerText++
-    }
-}*/
+   if (w_seconds > 0){
+      w_seconds --;
+      
+   }else if(w_minutes > 0){
+      w_seconds = 59;
+      w_minutes --;
+   }   
+
+   document.getElementById('w_seconds').innerText = w_seconds;
+   document.getElementById('w_minutes').innerText = w_minutes;
+
+   
+
+} 
+
+   function b_timer(){
+
+      if (b_seconds > 0){
+         b_seconds --;
+         
+      }else if(b_minutes > 0){
+         b_seconds = 59;
+         b_minutes --;
+      }   
+   
+      document.getElementById('b_seconds').innerText = b_seconds;
+      document.getElementById('b_minutes').innerText = b_minutes;
+
+   }
+
