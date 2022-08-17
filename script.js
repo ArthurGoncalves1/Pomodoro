@@ -1,73 +1,83 @@
 "use strict"
 
- 
-var w_minutes = 25;
-var w_seconds = 0;
+var wm = 25;
+var ws = 0;
 
-var w_cycles = 0;
+var bm = 5
+var bs = 0;
 
-var b_minutes = 5
-var b_seconds = 0;
+var counter = 0;
 
-var tempo = 1000;
-var cron;
-var cron2;
-
+var startTimer;
 
 function start(){
-   if(w_seconds > 0  || w_minutes > 0){
-      cron = setInterval(w_timer, tempo);
+   if(startTimer ===undefined){
+      
+      startTimer = setInterval(timer, 1000);
+      
    }else{
-      w_cycles++
-      document.getElementById('w_cycles').innerHTML = w_cycles;
+      alert("Timer is already running")
+   }
+}
+
+
+function timer(){
+   if( ws != 0){
+      console.log(startTimer)
+      ws--;
+   } else if(wm != 0 && ws == 0){
+      ws = 59;
+      wm--;
    }
 
+   document.getElementById('w_minutes').innerText = wm + ":"
+   document.getElementById('w_seconds').innerText = ws
+
+   if(wm == 0 && ws == 0){
+      if(bs != 0){
+         bs--;
+         document.getElementById('b_seconds').innerText = bs
+      }else if(bm != 0 && bs ==0){
+         bs = 59;
+         bm--;
+         document.getElementById('b_minutes').innerText = bm + ":"
+         document.getElementById('b_seconds').innerText = bs
+      }
+   }
+
+   
+  
+
+   if(wm == 0 && ws == 0 && bm == 0 && bs == 0){
+      wm = 25;
+      ws = "00";
+
+      bm = 5;
+      bs = "00";
+
+      counter++;
+      document.getElementById('w_cycles').innerText = counter;
+   }
 }
 
 function pause(){
-   clearInterval(cron)
-   clearInterval(cron2)
+   clearInterval(startTimer);
+   startTimer = undefined;
 }
 
 function reset(){
+   document.getElementById('w_minutes').innerText = 25 + ":"
+   document.getElementById('w_seconds').innerText = "00"
+   wm = 25
+   ws = 0 
 
-   var w_minutes = 0;
-   var w_seconds = 2;
+   document.getElementById('b_minutes').innerText = 5 + ":"
+   document.getElementById('b_seconds').innerText = "00"
+   bm = 5
+   bs = 0
 
-   var b_minutes = 5
-   var b_seconds = 0;
+   document.getElementById('w_cycles').innerText = 0;
+   counter = 0
 
+   pause();
 }
-
-function w_timer(){
-
-   if (w_seconds > 0){
-      w_seconds --;
-      
-   }else if(w_minutes > 0){
-      w_seconds = 59;
-      w_minutes --;
-   }   
-
-   document.getElementById('w_seconds').innerText = w_seconds;
-   document.getElementById('w_minutes').innerText = w_minutes;
-
-   
-
-} 
-
-   function b_timer(){
-
-      if (b_seconds > 0){
-         b_seconds --;
-         
-      }else if(b_minutes > 0){
-         b_seconds = 59;
-         b_minutes --;
-      }   
-   
-      document.getElementById('b_seconds').innerText = b_seconds;
-      document.getElementById('b_minutes').innerText = b_minutes;
-
-   }
-
